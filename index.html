@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Combiner for Truth Social</title>
+    <title>Image Combiner</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Combine Images for Truth Social</h1>
-        <p>Select two images to combine them into one.</p>
+        <h1>Image Combiner</h1>
+        <p>Combine two images for easy sharing.</p>
         <div class="upload-section">
             <label for="image1">Upload Top Image:</label>
             <input type="file" id="image1" accept="image/*">
@@ -17,9 +17,11 @@
             <input type="file" id="image2" accept="image/*">
         </div>
         <button id="combineBtn">Combine Images</button>
-        <canvas id="canvas"></canvas>
-        <a id="downloadBtn" style="display: none;" download="combined-image.png">Download Combined Image</a>
+        <div id="output" class="output">
+            <canvas id="canvas"></canvas>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
+
