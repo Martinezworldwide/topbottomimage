@@ -14,28 +14,31 @@ combineBtn.addEventListener("click", async () => {
     const img1 = await loadImage(URL.createObjectURL(image1));
     const img2 = await loadImage(URL.createObjectURL(image2));
 
-    const viewportWidth = document.body.clientWidth;
-    const maxCanvasWidth = viewportWidth * 0.9;
-
-    const canvasWidth = Math.min(maxCanvasWidth, Math.max(img1.width, img2.width));
-    const scaleFactor1 = canvasWidth / img1.width;
-    const scaleFactor2 = canvasWidth / img2.width;
+    // Set a fixed width to fit within one page
+    const pageWidth = 800; // Standard printable width
+    const scaleFactor1 = pageWidth / img1.width;
+    const scaleFactor2 = pageWidth / img2.width;
 
     const img1Height = img1.height * scaleFactor1;
     const img2Height = img2.height * scaleFactor2;
-    const canvasHeight = img1Height + img2Height;
+    const totalHeight = img1Height + img2Height;
 
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+    // Set the canvas size
+    canvas.width = pageWidth;
+    canvas.height = totalHeight;
 
-    // Draw the top image
-    ctx.drawImage(img1, 0, 0, canvasWidth, img1Height);
+    // Draw images onto the canvas
+    ctx.drawImage(img1, 0, 0, pageWidth, img1Height);
+    ctx.drawImage(img2, 0, img1Height, pageWidth, img2Height);
 
-    // Draw the bottom image
-    ctx.drawImage(img2, 0, img1Height, canvasWidth, img2Height);
-
+    // Display the canvas
     canvas.style.display = "block";
-    alert("You can take a screenshot of the combined image now.");
+
+    // Scale canvas to fit on one page for printing
+    canvas.style.width = "100%";
+    canvas.style.height = "auto";
+
+    alert("Your combined image is ready. Take a screenshot or print it as one page.");
 });
 
 function loadImage(src) {
