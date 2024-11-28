@@ -1,7 +1,6 @@
 const combineBtn = document.getElementById("combineBtn");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const downloadBtn = document.getElementById("downloadBtn");
 
 combineBtn.addEventListener("click", async () => {
     const image1 = document.getElementById("image1").files[0];
@@ -15,21 +14,28 @@ combineBtn.addEventListener("click", async () => {
     const img1 = await loadImage(URL.createObjectURL(image1));
     const img2 = await loadImage(URL.createObjectURL(image2));
 
-    const canvasWidth = Math.max(img1.width, img2.width);
-    const canvasHeight = img1.height + img2.height;
+    const viewportWidth = document.body.clientWidth;
+    const maxCanvasWidth = viewportWidth * 0.9;
+
+    const canvasWidth = Math.min(maxCanvasWidth, Math.max(img1.width, img2.width));
+    const scaleFactor1 = canvasWidth / img1.width;
+    const scaleFactor2 = canvasWidth / img2.width;
+
+    const img1Height = img1.height * scaleFactor1;
+    const img2Height = img2.height * scaleFactor2;
+    const canvasHeight = img1Height + img2Height;
 
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
 
     // Draw the top image
-    ctx.drawImage(img1, 0, 0, canvasWidth, img1.height);
+    ctx.drawImage(img1, 0, 0, canvasWidth, img1Height);
 
     // Draw the bottom image
-    ctx.drawImage(img2, 0, img1.height, canvasWidth, img2.height);
+    ctx.drawImage(img2, 0, img1Height, canvasWidth, img2Height);
 
     canvas.style.display = "block";
-    downloadBtn.style.display = "inline-block";
-    downloadBtn.href = canvas.toDataURL("image/png");
+    alert("You can take a screenshot of the combined image now.");
 });
 
 function loadImage(src) {
@@ -40,3 +46,4 @@ function loadImage(src) {
         img.src = src;
     });
 }
+
